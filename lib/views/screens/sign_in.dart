@@ -1,12 +1,11 @@
-import 'dart:developer';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:posts/auth/auth.dart';
 import 'package:posts/utils/kTextStyle.dart';
 import 'package:posts/utils/namedrouting.dart';
-import 'package:posts/views/screens/home.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/auth_provider.dart';
 import 'signup.dart';
 
 class SignInPage extends StatefulWidget {
@@ -17,7 +16,6 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  AuthService? authUser;
   late TextEditingController emailController;
   late TextEditingController passwordController;
   @override
@@ -58,16 +56,11 @@ class _SignInPageState extends State<SignInPage> {
               ),
               const SizedBox(height: 15),
               ElevatedButton(
-                onPressed: () async {
-                  try {
-                    await authUser!.signIn(emailController.text.trim(),
-                        passwordController.text.trim());
-                    log(authUser.toString());
-                    kNavigate(context, MyHomePage());
-                  } on Exception catch (e) {
-                    ScaffoldMessenger(
-                        child: SnackBar(content: Text(e.toString())));
-                  }
+                 onPressed: () async {
+                  context.read<AuthProvider>().signIn(
+                      context,
+                      emailController.text.trim(),
+                      passwordController.text.trim());
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,

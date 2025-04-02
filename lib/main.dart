@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:posts/firebase_options.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
+import 'package:posts/providers/auth_provider.dart';
 import 'package:posts/views/screens/signup.dart';
+import 'package:provider/provider.dart';
 
 import 'views/screens/home.dart';
 
@@ -16,7 +18,11 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+      ],
+      child: MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -35,6 +41,7 @@ class MyApp extends StatelessWidget {
             }
             return SignupPage();
           }),
+    ),
     );
   }
 }
