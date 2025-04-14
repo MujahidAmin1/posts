@@ -22,14 +22,10 @@ class DatabaseServices {
     }
   }
 
-  Stream<User> fetchUser() {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-    final currentUser = _auth.currentUser;
-    return FirebaseFirestore.instance
-        .collection("users")
-        .doc(currentUser?.uid ?? "")
-        .snapshots()
-        .map((snapshot) => User.fromMap(snapshot.data()!));
+  Future<User?> fetchUser(String uid) async {
+    final doc =
+        await FirebaseFirestore.instance.collection("users").doc(uid).get();
+    return User.fromMap(doc.data()!);
   }
 
   Future createPost(Post post) async {
@@ -37,9 +33,8 @@ class DatabaseServices {
     await mypost.set(post.toJson());
   }
 
+  final currentUser = _auth.currentUser;
   Stream<List<Post>> readPosts() {
-    final currentUser = _auth.currentUser;
-
     try {
       if (currentUser == null) {
         return Stream.value([]);
@@ -63,13 +58,12 @@ class DatabaseServices {
       createdAt: DateTime.now(),
     );
     final posts =
-        FirebaseFirestore.instance.collection("$uid posts").doc(updatedPost.id);
+        FirebaseFirestore.instance.collection('posts').doc(updatedPost.id);
     await posts.update(updatedPost.toJson());
   }
 
   Future deletePost(Post post, String uid) async {
-    final posts =
-        FirebaseFirestore.instance.collection('$uid posts').doc(post.id);
+    final posts = FirebaseFirestore.instance.collection(uid).doc(post.id);
     await posts.delete();
   }
 }

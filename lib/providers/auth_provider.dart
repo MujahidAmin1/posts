@@ -4,7 +4,8 @@ import 'package:posts/auth/auth.dart';
 import 'package:posts/auth/database.dart';
 import 'package:posts/models/user.dart';
 import 'package:posts/views/screens/home.dart';
-import 'package:posts/views/screens/signup.dart';
+
+import '../views/screens/sign_in.dart';
 
 class AuthProvider extends ChangeNotifier {
   AuthService authService = AuthService();
@@ -17,7 +18,7 @@ class AuthProvider extends ChangeNotifier {
         context,
         MaterialPageRoute(
           builder: (context) {
-            return SignupPage();
+            return SignInPage();
           },
         ),
       );
@@ -46,11 +47,7 @@ class AuthProvider extends ChangeNotifier {
     isLoading = false;
   }
 
-  Stream<String> fetchUsername() {
-    var userData = databaseServices.fetchUser();
-    return userData.map((user) => user.username ?? "User");
-  }
-
+  
   void createAcct(BuildContext context, String username, String email,
       String password) async {
     isLoading = true;
@@ -76,3 +73,4 @@ class AuthProvider extends ChangeNotifier {
     isLoading = false;
   }
 }
+ 

@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
-import 'package:uuid/v4.dart';
-
 class Post {
   String? postId;
   String? id;

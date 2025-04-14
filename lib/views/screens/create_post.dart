@@ -25,7 +25,9 @@ class _CreatePostState extends State<CreatePost> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('Create Post'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -39,8 +41,10 @@ class _CreatePostState extends State<CreatePost> {
                 ),
               ),
             ),
+            const SizedBox(height: 15),
             TextField(
               controller: bodyController,
+              maxLines: 3,
               decoration: InputDecoration(
                 hintText: 'Content',
                 border: OutlineInputBorder(
@@ -48,7 +52,8 @@ class _CreatePostState extends State<CreatePost> {
                 ),
               ),
             ),
-            TextButton(
+            const SizedBox(height: 10),
+            FilledButton(
               onPressed: () {
                 try {
                   var post = Post(
@@ -68,9 +73,9 @@ class _CreatePostState extends State<CreatePost> {
                   );
                 }
               },
-              style: TextButton.styleFrom(
+              style: FilledButton.styleFrom(
                   backgroundColor: Colors.blue,
-                  minimumSize: Size(400, 30),
+                  minimumSize: Size(410, 45),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
               child: Text("Post"),
